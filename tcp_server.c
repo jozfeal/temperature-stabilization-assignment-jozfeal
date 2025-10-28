@@ -168,7 +168,6 @@ int main(void)
 
     close(socket_desc);
     
-    return 0;
-
     printf("Final system temperature: %f\n", centralTemp);
+    return 0;
 }
