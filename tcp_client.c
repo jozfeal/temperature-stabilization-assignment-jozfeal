@@ -49,7 +49,7 @@ int main (int argc, char *argv[])
     float externalTemp = initialTemperature;
     while ( 1 ) {
     	// Package to the sent to server 
-    	the_message = prepare_message(externalIndex, initialTemperature); 
+    	the_message = prepare_message(externalIndex, externalTemp); 
 
     	// Send the message to server:
     	if(send(socket_desc, (const void *)&the_message, sizeof(the_message), 0) < 0){

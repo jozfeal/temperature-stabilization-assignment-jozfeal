@@ -105,7 +105,7 @@ int main(void)
     int * client_socket = establishConnectionsFromExternalProcesses(); 
 
 
-    float centralTemp = 70.0;
+    float centralTemp = 120.0;
 
     int stable = false;
     while ( !stable ){
@@ -145,10 +145,9 @@ int main(void)
             }
         }        
 
-        printf("\n");
+        printf("Iteration difference: %f\n", fabsf(updatedTemp - centralTemp));
 	
         // Check stability condition
-	printf("difference: %f\n", fabsf(updatedTemp - centralTemp));
         if (fabsf(updatedTemp - centralTemp) < 0.0005) {
             stable = true;
 	    updated_msg.T = -1;
@@ -170,4 +169,6 @@ int main(void)
     close(socket_desc);
     
     return 0;
+
+    printf("Final system temperature: %f\n", centralTemp);
 }
