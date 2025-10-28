@@ -63,6 +63,11 @@ int main (int argc, char *argv[])
         	printf("Error while receiving server's msg\n");
         	return -1;
     	}
+
+	// -1 is the signal from central process to stop
+	if (the_message.T < 0)
+		break;
+
 	float centralTemp = the_message.T;
 	externalTemp = (3 * externalTemp + 2 * centralTemp) / 5.0;
     

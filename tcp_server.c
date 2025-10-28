@@ -90,7 +90,7 @@ int * establishConnectionsFromExternalProcesses()
 
 
 
-int main(char *argv[])
+int main(void)
 {
     int socket_desc; 
     // unsigned int client_size;
@@ -105,7 +105,6 @@ int main(char *argv[])
     int * client_socket = establishConnectionsFromExternalProcesses(); 
 
 
-    //float centralTemp = atof(argv[0]);
     float centralTemp = 70.0;
 
     int stable = false;
@@ -152,6 +151,13 @@ int main(char *argv[])
 	printf("difference: %f\n", fabsf(updatedTemp - centralTemp));
         if (fabsf(updatedTemp - centralTemp) < 0.0005) {
             stable = true;
+	    updated_msg.T = -1;
+	    for (int i = 0;  i < numExternals; i++){
+            	if (send(client_socket[i], (const void *)&updated_msg, sizeof(updated_msg), 0) < 0){
+                	printf("Can't send\n");
+                	return -1;
+            	}
+	    }
 	}
 	centralTemp = updatedTemp;
 
