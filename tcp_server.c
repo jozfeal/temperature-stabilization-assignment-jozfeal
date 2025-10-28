@@ -7,6 +7,7 @@
 #include <arpa/inet.h>
 #include <stdbool.h>
 #include "utils.h"
+#include <math.h>
 
 
 #define numExternals 4     // Number of external processes 
@@ -89,11 +90,11 @@ int * establishConnectionsFromExternalProcesses()
 
 
 
-int main(void)
+int main(char *argv[])
 {
     int socket_desc; 
-   // unsigned int client_size;
-   // struct sockaddr_in server_addr, client_addr;
+    // unsigned int client_size;
+    // struct sockaddr_in server_addr, client_addr;
 
     // Messages received from clients (externals). 
     struct msg messageFromClient;   
@@ -104,6 +105,8 @@ int main(void)
     int * client_socket = establishConnectionsFromExternalProcesses(); 
 
 
+    //float centralTemp = atof(argv[0]);
+    float centralTemp = 70.0;
 
     int stable = false;
     while ( !stable ){
@@ -126,9 +129,8 @@ int main(void)
         }
 
         // Modify Temperature 
-        float updatedTemp = temperature[0] + temperature[1] + temperature[2] + temperature[3];
-        updatedTemp += updatedTemp / 4.0;  
-
+        float updatedTemp = 2 * centralTemp + temperature[0] + temperature[1] + temperature[2] + temperature[3];
+	updatedTemp = updatedTemp / 6.0;
 
         // Construct message with updated temperature
         struct msg updated_msg; 
@@ -145,10 +147,13 @@ int main(void)
         }        
 
         printf("\n");
-
-        // Check stability condition 
-        if (updatedTemp == 0)
-            stable = true; 
+	
+        // Check stability condition
+	printf("difference: %f\n", fabsf(updatedTemp - centralTemp));
+        if (fabsf(updatedTemp - centralTemp) < 0.0005) {
+            stable = true;
+	}
+	centralTemp = updatedTemp;
 
     }
  
