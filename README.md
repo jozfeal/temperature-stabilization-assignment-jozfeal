@@ -1,3 +1,12 @@
+# Solution
+![server](server.png)
+![client_1](client_1.png)
+![client_2](client_2.png)
+![client_3](client_3.png)
+![client_4](client_4.png)
+
+The program has a loop on both the clients and server, so that they keep calculating temperature until stabilization is reached. The central process starts with the hardcoded temperature of 120. The central process will obtain temperatures from its clients, and calculate a new updated temperature which it sends back to them. Then the clients calculate with the updated temperature and send it back to the server. This is repeated until the difference between the central process's temperature is less than 0.0005, at which point the server terminates iteration for the clients and closes them. Then the final system temperature is printed.
+
 # Temperature stabilization using inter-process communication
 
 ### :warning: This is a Linux/Unix OS assignment. It is not an OS/161 Assignment
